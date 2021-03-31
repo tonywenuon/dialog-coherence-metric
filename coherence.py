@@ -109,14 +109,15 @@ if __name__ == '__main__':
     s1 = 'I like basketable'
     s2 = 'I love footable'
     score = coh.sentence_coherence_score(s1, s2)
-    print('single sentence score:', score)
-
+    print('GloVe single sentence score:', score)
     score = coh.corpus_coherence_score(ref_path, hyp_path)
     print('GloVe corpus level score:', score)
 
     emb_type = 'word2vec'
     emb_path = './GoogleNews-vectors-negative300.bin'
     coh = Coherence(emb_type, emb_path)
+    score = coh.sentence_coherence_score(s1, s2)
+    print('Word2Vec single sentence score:', score)
     score = coh.corpus_coherence_score(ref_path, hyp_path)
     print('Word2Vec corpus level score:', score)
 
