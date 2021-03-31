@@ -26,7 +26,7 @@ One can download it and put it under the same folder with the `coherence.py` as 
 Run this command to obtain coherence score of the toy data:
 
 ```
-python coherence.py ./data/ref.txt ./data/hyp.txt
+python coherence.py ./data/response.txt ./data/context.txt
 ```
 
 Please see into the `coherence.py` if you want to use codes in your own program.
@@ -38,15 +38,16 @@ Please see into the `coherence.py` if you want to use codes in your own program.
     s2 = 'I love footable'
     score = coh.sentence_coherence_score(s1, s2)
     print('GloVe single sentence score:', score)
-    score = coh.corpus_coherence_score(ref_path, hyp_path)
+    score = coh.corpus_coherence_score(response_path, context_path)
     print('GloVe corpus level score:', score)
 
     emb_type = 'word2vec'
-    emb_path = './GoogleNews-vectors-negative300.bin'
+    #emb_path = './GoogleNews-vectors-negative300.bin'
+    emb_path = '/home/psxwz2/tony/metrics/EmbeddingBased/GoogleNews-vectors-negative300.bin'
     coh = Coherence(emb_type, emb_path)
     score = coh.sentence_coherence_score(s1, s2)
     print('Word2Vec single sentence score:', score)
-    score = coh.corpus_coherence_score(ref_path, hyp_path)
+    score = coh.corpus_coherence_score(response_path, context_path)
     print('Word2Vec corpus level score:', score)
 ```
 
