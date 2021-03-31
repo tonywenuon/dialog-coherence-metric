@@ -115,8 +115,7 @@ if __name__ == '__main__':
     print('GloVe corpus level score:', score)
 
     emb_type = 'word2vec'
-    #emb_path = './GoogleNews-vectors-negative300.bin'
-    emb_path = '/home/psxwz2/tony/metrics/EmbeddingBased/GoogleNews-vectors-negative300.bin'
+    emb_path = './GoogleNews-vectors-negative300.bin'
     coh = Coherence(emb_type, emb_path)
     score = coh.sentence_coherence_score(s1, s2)
     print('Word2Vec single sentence score:', score)
