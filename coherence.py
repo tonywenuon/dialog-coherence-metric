@@ -45,11 +45,16 @@ class Coherence(object):
     def _get_vector_of_sentene(self, sentence):
         """Return contains word vector list."""
         remove_stop_word_sentence = [w.lower() for w in sentence.split(' ') if not w.lower() in self.stop_words] 
+        emb_mean, emb_std = 0, 0.1
+        random_emb = np.random.normal(emb_mean, emb_std, (1, 300))
         vectors = [] 
         for w in remove_stop_word_sentence:
             if w in self.dic_word2vec:
                 vectors.append(self.dic_word2vec[w])
-        vectors = np.asarray(vectors)
+        if len(vectors) == 0:
+            vectors = np.asarray(random_emb)
+        else:
+            vectors = np.asarray(vectors)
         return np.sum(vectors, axis=0)
 
     def _calc_cosine_sim(self, vectors1, vectors2):
