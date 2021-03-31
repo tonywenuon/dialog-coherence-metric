@@ -60,48 +60,49 @@ class Coherence(object):
 
     def sentence_coherence_score(
             self,
-            reference: str,
-            hypothesis: str) -> float:
+            response: str,
+            context: str) -> float:
         """
         Args:
-            reference (str): reference sentence.
-            hypothesis: (str): hypothesis sentence.
+            response(str): response sentence.
+            context: (str): contex tsentence.
 
         Return:
             float: sentence cosine similarity score
 
         """
-        emb_ref = self._get_vector_of_sentene(reference)
-        emb_hyp = self._get_vector_of_sentene(hypothesis)
-        return self._calc_cosine_sim(emb_ref, emb_hyp)
+        emb_response = self._get_vector_of_sentene(response)
+        emb_context = self._get_vector_of_sentene(context)
+        return self._calc_cosine_sim(emb_response, emb_context)
 
     def corpus_coherence_score(
             self,
-            ref_path: str,
-            hyp_path: str) -> float:
+            response_path: str,
+            context_path: str) -> float:
         """
         Args:
-            ref_path(str): reference file path, i.e. the ground truth responses file path.
-            hyp_path(str): hypothesis file path, i.e. the generated responses file path.
+            response_path(str): the generated responses file path.
+            context_path(str): the context file path.
 
         Return:
             float: corpus level coherence score
 
         """
-        ref_list = self._read_raw_data(ref_path)
-        hyp_list = self._read_raw_data(hyp_path)
-        assert len(ref_list) == len(hyp_list), 'The number of reference sentences should be the same with that of hypothesis sentences'
+        response_list = self._read_raw_data(response_path)
+        context_list = self._read_raw_data(context_path)
+        assert len(response_list) == len(context_list), 'The number of response sentences should be the same with that of contex tsentences'
         scores = []
-        for ref, hyp in zip(ref_list, hyp_list):
-            score = self.sentence_coherence_score(ref, hyp)
+        for response, context in zip(response_list, context_list):
+            score = self.sentence_coherence_score(response, context)
             scores.append(score)
         scores = np.asarray(scores)
         return np.mean(scores)
 
+
 if __name__ == '__main__':
-    assert len(sys.argv) == 3, 'Please provide a reference file and a hypothesis file.'
-    ref_path = sys.argv[1]
-    hyp_path = sys.argv[2]
+    assert len(sys.argv) == 3, 'Please provide a generated response file and a context file.'
+    response_path = sys.argv[1]
+    context_path = sys.argv[2]
 
     emb_type = 'glove'
     emb_path = './glove.42B.300d.txt'
@@ -110,15 +111,16 @@ if __name__ == '__main__':
     s2 = 'I love footable'
     score = coh.sentence_coherence_score(s1, s2)
     print('GloVe single sentence score:', score)
-    score = coh.corpus_coherence_score(ref_path, hyp_path)
+    score = coh.corpus_coherence_score(response_path, context_path)
     print('GloVe corpus level score:', score)
 
     emb_type = 'word2vec'
-    emb_path = './GoogleNews-vectors-negative300.bin'
+    #emb_path = './GoogleNews-vectors-negative300.bin'
+    emb_path = '/home/psxwz2/tony/metrics/EmbeddingBased/GoogleNews-vectors-negative300.bin'
     coh = Coherence(emb_type, emb_path)
     score = coh.sentence_coherence_score(s1, s2)
     print('Word2Vec single sentence score:', score)
-    score = coh.corpus_coherence_score(ref_path, hyp_path)
+    score = coh.corpus_coherence_score(response_path, context_path)
     print('Word2Vec corpus level score:', score)
 
 
