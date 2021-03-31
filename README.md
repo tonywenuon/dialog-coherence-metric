@@ -23,6 +23,13 @@ One can download it and put it under the same folder with the `coherence.py` as 
 
 ### Quick Start
 
+Run this command to obtain coherence score of the toy data:
+
+```
+python coherence.py ./data/ref.txt ./data/hyp.txt
+```
+
+Please see into the `coherence.py` if you want to use codes in your own program.
 ``` python
     emb_type = 'glove'
     emb_path = './glove.42B.300d.txt'
